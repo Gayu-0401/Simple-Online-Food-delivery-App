@@ -6,7 +6,7 @@
     transform: translate(25%,20%);
     text-align: left;
     justify-content: space-around;
-    box-shadow: 0 0 5px  gray ;
+    box-shadow: 0 0 5px  rgb(130, 129, 129) ;
 }
 .food .food-img{
     width: 20vw;
