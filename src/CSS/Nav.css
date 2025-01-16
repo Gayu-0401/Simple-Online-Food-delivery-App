@@ -28,6 +28,12 @@
 .nav .links ul li a{
     text-decoration: none;
 }
+.nav .links ul li a.home:hover,.nav .links ul li a.help:hover{
+    padding: 8px 15px;
+    background-color: orangered;
+    color: #fff;
+    border-radius: 10px;
+}
 .nav .links ul li .bxs-heart{
     font-size: 23px;
     color: rgb(222, 9, 9);

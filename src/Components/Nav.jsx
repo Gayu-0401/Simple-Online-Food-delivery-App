@@ -27,10 +27,10 @@ export const Nav = () => {
             <NavLink to="/MyCart"><i className='bx bxs-cart'></i></NavLink>
           </li>
           <li>
-            <NavLink to="/">Home</NavLink>
+            <NavLink to="/" className='home'>Home</NavLink>
           </li>
           <li>
-            <NavLink to="/Help">Help</NavLink>
+            <NavLink to="/Help" className='help'>Help</NavLink>
           </li>
           <li>
             <button onClick={handleLogin}>Login</button>
