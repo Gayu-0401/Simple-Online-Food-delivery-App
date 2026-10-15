@@ -1,42 +1,52 @@
-import { NavLink, useNavigate } from 'react-router-dom';
-import logo from '../assets/logo.png';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
+import logo from '../assets/logo-mark.png';
 import '../CSS/Nav.css';
 
-export const Nav = () => {
+export const Nav = ({ cart = [] }) => {
   const navigate = useNavigate();
-
-  const handleLogin = () => {
-    navigate('/register');
-  };
+  const cartCount = cart.reduce((sum, item) => sum + (item.count || 1), 0);
 
   return (
-    <div className="nav">
-      <div className="logo">
-        <img src={logo} alt="logo" height="90px" />
+    <header className="nav">
+      <Link to="/" className="logo" aria-label="Home">
+        <img src={logo} alt="" />
+      </Link>
+
+      <div className="search" role="search">
+        <i className="bx bx-search" aria-hidden="true"></i>
+        <input type="search" placeholder="Search food ..." aria-label="Search food" />
       </div>
-      <div className="search">
-        <i className="bx bx-search"></i>
-        <input type="search" placeholder="Search food ..." />
-      </div>
-      <div className="links">
+
+      <nav className="links" aria-label="Main">
         <ul>
           <li>
-            <NavLink to="/favorites"><i className='bx bxs-heart' ></i></NavLink>
+            <NavLink to="/favorites" className="icon-link" aria-label="Favorites">
+              <i className="bx bx-heart" aria-hidden="true"></i>
+            </NavLink>
           </li>
           <li>
-            <NavLink to="/MyCart"><i className='bx bxs-cart'></i></NavLink>
+            <NavLink
+              to="/MyCart"
+              className="icon-link"
+              aria-label={cartCount ? `Cart, ${cartCount} items` : 'Cart'}
+            >
+              <i className="bx bx-cart" aria-hidden="true"></i>
+              {cartCount > 0 && <span className="badge">{cartCount}</span>}
+            </NavLink>
           </li>
           <li>
-            <NavLink to="/" className='home'>Home</NavLink>
+            <NavLink to="/" end className="text-link">Home</NavLink>
           </li>
           <li>
-            <NavLink to="/Help" className='help'>Help</NavLink>
+            <NavLink to="/Help" className="text-link">Help</NavLink>
           </li>
           <li>
-            <button onClick={handleLogin}>Login</button>
+            <button className="login-btn" onClick={() => navigate('/register')}>
+              Log in
+            </button>
           </li>
         </ul>
-      </div>
-    </div>
+      </nav>
+    </header>
   );
 };
