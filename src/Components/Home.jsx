@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 export const Home = () => {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(null);
-  const [favorites, setFavorites] = useState(false); // Using Set to track favorited items
+  const [favorites, setFavorites] = useState(() => new Set()); 
   const Navigate = useNavigate();
 
   // Fetch meals data
@@ -26,6 +26,16 @@ export const Home = () => {
       .catch(() => setError('Failed to fetch meals.'));
   }, []);
 
+  // Toggle the heart for one meal only
+  const toggleFavorite = (idMeal) => {
+    setFavorites((prev) => {
+      const next = new Set(prev);
+      if (next.has(idMeal)) next.delete(idMeal);
+      else next.add(idMeal);
+      return next;
+    });
+  };
+
   // Helper function to generate a random price between ₹100 and ₹500
   const getRandomPrice = () => Math.floor(Math.random() * (500 - 100 + 1)) + 100;
 
@@ -37,8 +47,18 @@ export const Home = () => {
           <div key={meal.idMeal} id={`meal-${meal.idMeal}`} className="meal-card">
             <i
               className="bx bxs-heart home-heart"
-              onClick={() => setFavorites(!favorites)}
-              style={{ color: favorites ? 'rgb(255, 35, 35' : '#fff' }}
+              role="button"
+              tabIndex={0}
+              aria-label={favorites.has(meal.idMeal) ? `Remove ${meal.strMeal} from favorites` : `Add ${meal.strMeal} to favorites`}
+              aria-pressed={favorites.has(meal.idMeal)}
+              onClick={() => toggleFavorite(meal.idMeal)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  toggleFavorite(meal.idMeal);
+                }
+              }}
+              style={{ color: favorites.has(meal.idMeal) ? 'rgb(255, 35, 35)' : '#fff' }}
             ></i>
             <img
               src={meal.strMealThumb}
